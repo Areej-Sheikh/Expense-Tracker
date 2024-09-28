@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/stylesheets/CreateExpense.css" />
+    <link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/512/5501/5501375.png" type="image/png">
+
+    <%- include("partials/header")%>
+  </head>
+  <body>
+    <div class="main">
+      <%- include("partials/UserNav")%>
+      <div class="content">
+        <div class="text-box">
+          <h1>Create Epense</h1>
+          <form action="/expense/create" method="post">
+            <input type="text" name="title" placeholder="Title">
+            <input type="number" name="amount" placeholder="Amount" required />
+            <input type="text" name="category" placeholder="Category" required />
+            <input type="text" name="remark" placeholder="Remark" />
+          
+            <!-- Dropdown for Payment Mode -->
+            <select name="paymentmode" required>
+              <option value="" disabled selected>Select Payment Mode</option>
+              <option value="Cash">Cash</option>
+              <option value="UPI">UPI</option>
+              <option value="Cheque">Cheque</option>
+              <option value="Card">Card</option>
+            </select>
+          
+            <button type="submit">Log Expense</button>
+          </form>
+          
+        </div>
+      </div>
+    </div>
+    <%- include("partials/footer")%>
+  </body>
+</html>

@@ -1,0 +1,33 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/512/5501/5501375.png" type="image/png"/>
+    <link rel="stylesheet" href="/stylesheets/UserSignin.css" />
+    <%- include("partials/header")%>
+
+  </head>
+  <body>
+    <div class="main">
+        <%- include("partials/nav")%>
+    <div class="content">
+      <div class="text-box">
+        <h1>Sign In</h1>
+        <form action="/user/signin" method="post"> 
+          <input type="text" name="username" placeholder="Enter Username" />
+          <input type="password" name="password" placeholder="********" />
+          <button>Sign In </button>
+      </form>
+      
+      <p>Don't have an Account ? <a class="text-blue-400" href="/user/signup">Register</a></p>
+      <p><a href="/user/forget-password">Forget Password?</a></p>
+
+    </div>
+    
+    </div>
+        <%- include("partials/FlashMessage")%>
+        <%- include("partials/footer")%>
+  </body>
+</html>

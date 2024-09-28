@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/stylesheets/ShowExpense.css" />
+    <link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/512/5501/5501375.png" type="image/png">
+
+    <%- include("partials/header")%>
+  </head>
+  <body>
+    <div class="main">
+      <%- include("partials/UserNav")%>
+      <div class="content">
+        <div class="text-box">
+          <h1>Watch Expense</h1>
+          <ul class="expense-list">
+            <% expenses.forEach(function(expense) { %>
+              <li class="expense-item">
+                <span class="expense-title"><%= expense.title %></span> <a href="/expense/details/<%= expense._id %>" class="details-link">|Details</a>
+              </li>
+            <% }) %>
+          </ul>
+          
+        </div>
+      </div>
+    </div>
+    <%- include("partials/footer")%>
+  </body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/stylesheets/ExpenseDetails.css" />
+    <link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/512/5501/5501375.png" type="image/png">
+
+    <%- include("partials/header")%>
+  </head>
+  <body>
+    <div class="main">
+      <%- include("partials/UserNav")%>
+      <div class="content">
+        <div class="text-box">
+          <h1> <span class="expense-title"><%= expense.title %></span></h1>
+          <ul class="expense-list">
+            <li class="expense-item">
+              <span>Amount:</span><p>₹<%= expense.amount %></p>
+            </li>
+            <li class="expense-item">
+              <span>Category:</span><p><%= expense.category %></p>
+            </li>
+            <li class="expense-item">
+              <span>Remark:</span><p><%= expense.remark %></p>
+            </li>
+            <li class="expense-item">
+              <span>Payment Mode:</span><p><%= expense.paymentmode %></p>
+            </li>
+          </ul>
+          <div class="edit">
+            <a href="/expense/delete/<%=expense._id%>">Delete Expense</a>
+            <a href="/expense/update/<%=expense._id%>">Update Expense</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <%- include("partials/footer")%>
+  </body>
+</html>

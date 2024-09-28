@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/stylesheets/CreateExpense.css" />
+    <link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/512/5501/5501375.png" type="image/png">
+
+    <%- include("partials/header")%>
+  </head>
+  <body>
+    <div class="main">
+      <%- include("partials/nav")%>
+      <div class="content">
+        <div class="text-box">
+          <h1>Update Epense</h1>
+          <form action="/expense/update/<%= expense._id%>" method="post">
+            <input type="text" value="<%= expense.title%>" name="title" placeholder="Title">
+            <input type="number" value="<%= expense.amount%>" name="amount" placeholder="Amount" required />
+            <input type="text" value="<%= expense.category%>" name="category" placeholder="Category" required />
+            <input type="text" value="<%= expense.remark%>" name="remark" placeholder="Remark" />
+          
+            <!-- Dropdown for Payment Mode -->
+            <select name="paymentmode" required>
+              <option value="" disabled>Select Payment Mode</option>
+              <option value="Cash" <%= expense.paymentmode === "Cash" ? "selected" : "" %>>Cash</option>
+              <option value="UPI" <%= expense.paymentmode === "UPI" ? "selected" : "" %>>UPI</option>
+              <option value="Cheque" <%= expense.paymentmode === "Cheque" ? "selected" : "" %>>Cheque</option>
+              <option value="Card" <%= expense.paymentmode === "Card" ? "selected" : "" %>>Card</option>
+            </select>
+            
+            <button type="submit">Update</button>
+          </form>
+          
+        </div>
+      </div>
+    </div>
+    <%- include("partials/footer")%>
+  </body>
+</html>

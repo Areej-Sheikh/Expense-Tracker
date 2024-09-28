@@ -1,0 +1,79 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html,
+body {
+  padding: 3px 10px;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(to right, #111827, #065f46, #047857);
+  font-family: "Open Sans", sans-serif;
+}
+::-webkit-scrollbar {
+  display: none;
+}
+:root {
+  --maincolor: #0dc56f;
+}
+.main {
+  width: 100%;
+  height: 100%;
+}
+
+.content {
+  width: 100%;
+  height: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-box {
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.text-box {
+  margin-top: -5%;
+  padding: 20px;
+  color: rgb(173, 173, 173);
+}
+.text-box h1,
+.text-box h2,
+.text-box h3 {
+  color: var(--maincolor); /* Emerald color */
+  line-height: 1.5;
+  font-weight: 600;
+  font-size: 30px;
+}
+.text-box p {
+  margin-bottom: 1rem;
+}
+.list {
+  line-height: 1.5;
+}
+.text-box a {
+  text-decoration: none;
+  color: white;
+  background-color: #4caf50;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  padding: 14px 22px;
+  border-radius: 10px;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+.text-box a:hover {
+  background-color: #3b883e;
+}
+.getstarted {
+  position: absolute;
+  margin-top: 3%;
+  margin-left: 25%;
+}

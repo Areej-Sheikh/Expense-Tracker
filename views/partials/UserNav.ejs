@@ -1,0 +1,178 @@
+<style>
+    nav {
+      width: 100%;
+      height: 10%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      background: rgba(
+        255,
+        255,
+        255,
+        0.1
+      ); /* Semi-transparent background */
+      border-radius: 15px; /* Rounded corners */
+      backdrop-filter: blur(10px); /* Blur the background */
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      -webkit-backdrop-filter: blur(10px); /* For Safari support */
+    }
+    .tabs {
+      width: 70%;
+      height: 90%;
+      display: flex;
+      align-items: center;
+      justify-content: space-evenly;
+      gap: 20px;
+    }
+    nav img {
+      height: 40px;
+      cursor: pointer;
+    }
+    nav a {
+      text-decoration: none;
+      color: #fff;
+      font-weight: 600;
+      font-size: 18px;
+      transition: 0.5s all ease;
+    }
+    nav a:hover {
+      padding: 5px 10px;
+      background-color: #b8b8b892;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 18px;
+    }
+    .logo {
+      width: 20%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      color: white;
+    }
+    .logo h1{
+        margin-bottom: 10px;
+    }
+    .menu {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      height: 100%;
+      cursor: pointer;
+      transition: 0.5s all ease;
+      padding: 5px;
+      position: relative;
+    }
+
+    .lines {
+      width: 30px;
+      height: 3px;
+      margin-bottom: 5px;
+      background-color: white;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+  </style>
+  <nav>
+    <div class="logo">
+      <img
+        src="https://cdn-icons-png.flaticon.com/512/5501/5501375.png"
+        alt=""
+      />
+      <h1>ExpenseTrackr</h1>
+    </div>
+    <div class="tabs">
+      <% if(user){ %>
+      <a href="/user/profile">Home</a>
+      <a href="/expense/create">Log Expense</a>
+      <a href="/expense/show">Watch Expenses</a>
+      <a href="/about">About</a>
+      <div class="menu">
+        <div class="lines" id="l1"></div>
+        <div class="lines" id="l2"></div>
+        <div class="lines" id="l3"></div>
+      </div>
+      <%}else{ %>
+      <a href="/">Home</a>
+      <a href="/about">About</a>
+      <% }%>
+     
+    </div>
+  </nav>
+  <style>
+    .sidebar a {
+  font-size: 18px;
+  font-weight: 600;
+  color: white;
+  text-decoration: none;
+  margin: 1rem;
+  transition: font-size 0.3s ease-in-out;
+}
+.sidebar a:hover {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--maincolor);
+}
+.sidebar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  padding: 20px;
+  width: 25%;
+  height: 90%;
+  position: fixed;
+  right: -100%;
+  background: linear-gradient(
+    to right,
+    #047857,
+    #111827
+  ); /* Semi-transparent background */
+  backdrop-filter: blur(13px); /* Blur the background */
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  transition: right 0.5s ease-in-out;
+}
+</style>
+
+<div class="sidebar"> 
+    <a href="/user/profile">Dashboard</a>
+    <a href="/user/update-profile">Update Profile</a>
+    <a href="/user/reset-password">Reset Password</a>
+    <a href="/user/delete-account">Delete Account</a>
+    <a href="/user/signout">Signout</a>
+  </div>
+  <script>
+    let menu = document.querySelector(".menu");
+let l1 = document.querySelector("#l1");
+let l2 = document.querySelector("#l2");
+let l3 = document.querySelector("#l3");
+let sidebar = document.querySelector(".sidebar");
+let flag = 0;
+
+menu.addEventListener("click", function () {
+  if (flag === 0) {
+    // Transform the lines for the "X" shape
+    l1.style.transform = "rotate(45deg) translate(5px, 5px)";
+    l2.style.opacity = "0"; // Hide the middle line
+    l3.style.transform = "rotate(-45deg) translate(6.5px, -6.5px)";
+
+    // Sidebar slides into view
+    sidebar.style.right = "0";
+
+    flag = 1;
+  } else {
+    // Reset the lines back to the hamburger
+    l1.style.transform = "rotate(0deg) translate(0, 0)";
+    l2.style.opacity = "1"; // Show the middle line
+    l3.style.transform = "rotate(0deg) translate(0, 0)";
+
+    // Sidebar hides again
+    sidebar.style.right = "-100%";
+
+    flag = 0;
+  }
+});
+
+  </script>

@@ -1,0 +1,67 @@
+<style>
+  nav {
+    width: 100%;
+    height: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    background: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
+    border-radius: 15px; /* Rounded corners */
+    backdrop-filter: blur(10px); /* Blur the background */
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    -webkit-backdrop-filter: blur(10px); /* For Safari support */
+  }
+  .tabs{
+    width: 70%;
+    height: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 20px;
+  }
+  nav img {
+    height: 40px;
+    cursor: pointer;
+  }
+  nav a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: 600;
+    font-size: 18px;
+    transition: 0.5s all ease;
+  }
+  nav a:hover {
+    padding: 5px 10px;
+    background-color: #b8b8b892;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 18px;
+  }
+  .logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: white;
+}
+</style>
+<nav>
+  <div class="logo">
+    <img src="https://cdn-icons-png.flaticon.com/512/5501/5501375.png" alt="" />
+    <h1>ExpenseTrackr</h1>
+  </div>
+  <div class="tabs">
+
+    <% if(user){ %>
+      <a href="/user/profile">Home</a>
+      <a href="/expense/create">Log Expense</a>
+      <a href="/expense/show">Watch Expenses</a>
+      <%}else{ %>
+          <a href="/">Home</a>
+          <% }%>
+              <a href="/about">About</a>
+  </div>
+
+</nav>

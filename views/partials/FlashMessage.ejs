@@ -1,0 +1,91 @@
+<style>
+    .flash-message {
+        width: 20%;
+        height: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        top: 80%;
+        left: 50%;
+        transform: translateX(-50%);
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+        pointer-events: none; /* Prevent interaction when hidden */
+    }
+
+    .flash-success, .flash-error {
+        padding: 15px;
+        border-radius: 5px;
+        box-shadow: 0px 0px 5px rgba(0,0,0,0.2);
+        opacity: 0; /* Initially hidden */
+        transition: opacity 0.3s ease-in-out;
+    }
+
+    .flash-success {
+        background: linear-gradient(to right, #06382a, #047857);
+        color: white;
+    }
+
+    .flash-error {
+        background: linear-gradient(to right, #480505, #fb1a1a);
+        color: white;
+    }
+
+    .flash-message h1 {
+        font-size: 16px;
+        color: white;
+        text-align: center;
+    }
+</style>
+
+<section class="flash-message">
+    <% if (success_msg.length) { %>
+        <div class="flash-success">
+            <h1><%= success_msg %></h1>
+        </div>
+    <% } %>
+    <% if (error_msg.length) { %>
+        <div class="flash-error">
+            <h1><%= error_msg %></h1>
+        </div>
+    <% } %>
+</section>
+
+
+<script>
+    window.onload = function() {
+        const flashMessage = document.querySelector('.flash-message');
+        const flashSuccess = document.querySelector('.flash-success');
+        const flashError = document.querySelector('.flash-error');
+
+        // Show flash message only if there is a success or error message
+        if (flashSuccess || flashError) {
+            // Delay showing the flash message by 1 second
+            setTimeout(() => {
+                if (flashSuccess) {
+                    flashMessage.style.opacity = '1';
+                    flashSuccess.style.opacity = '1';
+                    flashMessage.style.left = '88%'; // Slide it in
+                }
+                if (flashError) {
+                    flashMessage.style.opacity = '1';
+                    flashError.style.opacity = '1';
+                    flashMessage.style.left = '88%'; // Slide it in
+                }
+            }, 1000);
+
+            // Hide the flash message after 3 seconds
+            setTimeout(() => {
+                if (flashSuccess) {
+                    flashSuccess.style.opacity = '0';
+                    flashMessage.style.opacity = '0';
+                }
+                if (flashError) {
+                    flashError.style.opacity = '0';
+                    flashMessage.style.opacity = '0';
+                }
+            }, 4000); // Total 3 seconds after showing
+        }
+    };
+</script>

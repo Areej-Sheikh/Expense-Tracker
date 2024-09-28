@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <%- include("partials/header")%>
+   
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/512/5501/5501375.png" type="image/png">
+
+  </head>
+  <body>
+    <div class="main">
+      <% if(user){%>
+        <%- include("partials/UserNav")%>
+        <% }else{%>
+        <%- include("partials/nav")%>
+        <% } %>
+
+      <div class="content">
+        <div class="text-box">
+          <h1>About ExpenseTrackr</h1>
+          <p>
+            Welcome to <strong>ExpenseTrackr</strong> – your go-to solution for
+            effortless financial management. Our mission is to simplify expense
+            tracking and budgeting, helping you gain complete control over your
+            finances. We understand that managing money can be challenging, so
+            we designed ExpenseTrackr to be user-friendly, intuitive, and
+            effective.
+          </p>
+
+          <h2>Our Features</h2>
+          <ul>
+            <li>
+              <strong>Real-time Expense Tracking:</strong> Keep track of your
+              expenses as they occur, ensuring you always have an up-to-date
+              view of your spending.
+            </li>
+            <li>
+              <strong>Customizable Categories:</strong> Organize your expenses
+              by categories that suit your needs, making budgeting and tracking
+              more relevant.
+            </li>
+            <li>
+              <strong>Detailed Reports:</strong> Gain insights into your
+              spending patterns with comprehensive reports and visualizations.
+            </li>
+            <li>
+              <strong>Secure and Private:</strong> We prioritize your security,
+              with advanced encryption to protect your financial data.
+            </li>
+          </ul>
+
+          <h2>Our Commitment</h2>
+          <p>
+            At ExpenseTrackr, we are dedicated to continuously improving our
+            platform to better serve your financial needs. We value your
+            feedback and are always looking for ways to enhance our features and
+            user experience.
+          </p>
+        </div>
+        <div class="image-box">
+          <img src="/images/about us.png" alt="" />
+        </div>
+      </div>
+    </div>
+    <%- include("partials/footer")%>
+  </body>
+</html>
+
+
+
