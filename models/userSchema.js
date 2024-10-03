@@ -19,20 +19,25 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
     },
-    avatar:{
-        type: String,
-        default: 'default.png',
+    avatar: {
+        type: Object,
+        default: {
+            fileId: "",
+            url: "/images/default.png",
+            thumbnailUrl: "/images/default.png",
+        },
     },
     expenses: [
         {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "expense",
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Expense", // Ensure the ref matches the model name
         },
-    ],
+      ],
+      
     
     OTP:{type:Number},
     otpExpiry: { type: Date },
-},{timespamps:true})
+},{ timestamps: true })
 
 userSchema.plugin(plm)
 const UserSchema = mongoose.model('User', userSchema)

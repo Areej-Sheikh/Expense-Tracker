@@ -2,11 +2,14 @@ const express = require("express");
 const router = express.Router();
 
 const UserSchema = require("../models/userSchema");
+const ExpenseSchema = require("../models/expenseSchema");
+
 const { isLoggedIn } = require("../middleware/auth.middleware");
 const sendMail = require('../config/email');
 
 const upload = require("../middleware/multimedia.middleware");
 const fs = require("fs");
+const imagekit = require('../config/imagekit');
 
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
@@ -152,22 +155,67 @@ router.post("/reset-password", isLoggedIn, async (req, res) => {
         return res.redirect('/user/reset-password'); // Redirect to reset password on error
     }
 });
+// router.get("/delete-account", isLoggedIn, async (req, res, next) => {
+//     try {
+//        const user = await UserSchema.findByIdAndDelete(req.user._id);
+//         if (user.avatar != "default.jpg") {
+//           fs.unlinkSync(`public/images/${user.avatar}`);
+//       }
+//           const expenses = await ExpenseSchema.find({ user: req.user._id });
+//           for (const expense of expenses) {
+//             await expense.remove();
+//           }
+//           req.logout(() => {
+//             req.flash("success", "Account deleted successfully");
+//           });
+       
+//         res.redirect("/user/signin");
+//     } catch (error) {
+//         next(error);
+//     }
+// });
 router.get("/delete-account", isLoggedIn, async (req, res, next) => {
     try {
+        const user = await UserSchema.findById(req.user._id);
+
+        // Check if the avatar is not the default one
+        if (user.avatar.fileId) {
+            // If the avatar is not the default image, delete it
+            // Make sure to use the correct property for the file path
+            const avatarPath = user.avatar.url; // Use the URL stored in the avatar object
+
+            // Check if the avatar URL is not the default
+            if (!avatarPath.includes('default.png')) {
+                fs.unlinkSync(`public${avatarPath}`); // Ensure the path is correct
+            }
+        }
+
+        // Delete user expenses
+        const expenses = await ExpenseSchema.find({ user: req.user._id });
+        for (const expense of expenses) {
+            await expense.remove();
+        }
+
+        // Delete the user account
         await UserSchema.findByIdAndDelete(req.user._id);
-      //   if (user.avatar != "default.jpg") {
-      //     fs.unlinkSync(`public/images/${user.avatar}`);
-      // }
-        // code to delete all relaated expenses
+        
+        req.logout(() => {
+            req.flash("success", "Account deleted successfully");
+        });
+
         res.redirect("/user/signin");
     } catch (error) {
         next(error);
     }
 });
+
 router.get("/update-profile", isLoggedIn, async (req, res) => {
+  // Fetch the user from the database
+      const user = await UserSchema.findById(req.user._id);
+      console.log(user);
     res.render("UserUpdate", {
         title: "Expense Tracker | Update User",
-        user: req.user,
+        user: user,
     });
 });
 router.post("/update-profile", isLoggedIn, async (req, res, next) => {
@@ -178,20 +226,58 @@ router.post("/update-profile", isLoggedIn, async (req, res, next) => {
         next(error);
     }
 });
-router.post("/avatar",isLoggedIn,upload.single("avatar"),async (req, res) => {
+router.post("/avatar", isLoggedIn, async (req, res, next) => {
   try {
-      if (req.user.avatar != "default.png") {
-          fs.unlinkSync(`public/images/${req.user.avatar}`);
-      }   
-      req.user.avatar = req.file.filename;
-      await UserSchema.findByIdAndUpdate(req.user._id, { avatar: req.file.filename });
+      // Fetch the user from the database
+      const user = await UserSchema.findById(req.user._id);
 
+      // Check if the user has an existing avatar and delete it
+      if (user.avatar.fileId) {
+          await imagekit.deleteFile(user.avatar.fileId);
+      }
+
+      // Upload the new avatar
+      const result = await imagekit.upload({
+        file: req.files.avatar.data,
+        fileName: req.files.avatar.name,
+    });
+    
+    console.log("Upload Result:", result);
+
+      // Destructure the result
+      const { fileId, url, thumbnailUrl } = result;
+
+      // Update the user's avatar
+      user.avatar = { fileId, url, thumbnailUrl };
+      console.log(result);
+
+      // Save the updated user
+      await user.save(); 
+
+      // Redirect to the update profile page
       res.redirect("/user/update-profile");
   } catch (error) {
-      next(error);
+      console.error("Error uploading avatar:", error); // Log the error details
+      req.flash("error", "Something went wrong while uploading the avatar.");
+      res.redirect("/user/update-profile"); // Redirect or handle the error appropriately
   }
-}
-);
+});
+
+
+// router.post("/avatar",isLoggedIn,upload.single("avatar"),async (req, res,next) => {
+//   try {
+//       if (req.user.avatar != "default.png") {
+//           fs.unlinkSync(`public/images/${req.user.avatar}`);
+//       }   
+//       req.user.avatar = req.file.filename;
+//       await UserSchema.findByIdAndUpdate(req.user._id, { avatar: req.file.filename });
+
+//       res.redirect("/user/update-profile");
+//   } catch (error) {
+//       next(error);
+//   }
+// }
+// );
 router.get('/forget-password', async(req,res,next)=>{
   res.render('ForgetPassword',{
     title: 'Expense Tracker | Forget Password',
@@ -212,8 +298,70 @@ router.post("/forget-password", async (req, res, next) => {
       sendMail(
         req.body.email,
         "OTP Verification",
-        `<h1>Your OTP is: ${otp}</h1>
-        <p>Please enter this OTP in the app. It is valid for 5 minutes.</p>`
+        "",
+        `
+        <head>
+    <style>
+        .container {
+            background-color: #ffffff;
+            width: 80%;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #000;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #000;
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        span {
+            font-size: 22px;
+            color: #007bff;
+        }
+
+        .thankyou {
+
+            margin-top: 30px;
+            color: black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .thankyou p {
+            font-size: 18px;
+            font-weight: 300;
+
+        } 
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Hello, ${user.username}!</h1>
+        <h2>You requested a password reset for your ExpenseTrackr account.</h2>
+        <h2>Please verify your OTP: <span>${otp}</span></h2>
+            <p>If you did not request this, please ignore this email or contact support.</p>
+
+        <div class="thankyou">
+            <p>Thank you for using ExpenseTrackr.</p>
+        </div>
+    </div>
+</body>
+
+</html>
+        `
       );
 
       // Save the OTP and its expiry time in the database
@@ -221,6 +369,7 @@ router.post("/forget-password", async (req, res, next) => {
         OTP: otp,
         otpExpiry: new Date(Date.now() + 300000),
       }); // 5 minutes expiry
+      req.flash('success', "Your OTP has been sent successfully")
     }
 
     // Redirect the user to the next step

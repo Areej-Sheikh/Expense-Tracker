@@ -1,30 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="shortcut icon"
-      href="https://cdn-icons-png.flaticon.com/512/5501/5501375.png"
-      type="image/png"
-    />
-    <link rel="stylesheet" href="/stylesheets/UserSignin.css" />
-    <%- include("partials/header")%>
-  </head>
-  <body>
-    <div class="main">
+
+<head>
+  <%- include("partials/header")%>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/512/5501/5501375.png" type="image/png" />
+  <link rel="stylesheet" href="/stylesheets/Verify_OTP.css" />
+</head>
+
+<body>
+
+  <div class="main">
       <%- include("partials/UserNav")%>
       <div class="content">
-        <div class="text-box">
-          <h1>Verify OTP</h1>
-          <form action="/user/verify-otp/<%= id%>" method="post">
-              <input type="number" name="otp" placeholder="Enter OTP" />
-              <button>Verify OTP</button>
-          </form>
-          
-        </div>
+          <div class="text-box">
+              <h1>Verify OTP</h1>
+              <form action="/user/verify-otp/<%= id %>" method="post" id="otpForm">
+                  <div class="otp-container" id="otpInputs">
+                      <!-- Replace single input with 6 OTP inputs -->
+                      <input type="tel" maxlength="1" class="otp-input" oninput="handleInput(event)" onkeydown="handleBackspace(event)">
+                      <input type="tel" maxlength="1" class="otp-input" oninput="handleInput(event)" onkeydown="handleBackspace(event)">
+                      <input type="tel" maxlength="1" class="otp-input" oninput="handleInput(event)" onkeydown="handleBackspace(event)">
+                      <input type="tel" maxlength="1" class="otp-input" oninput="handleInput(event)" onkeydown="handleBackspace(event)">
+                      <input type="tel" maxlength="1" class="otp-input" oninput="handleInput(event)" onkeydown="handleBackspace(event)">
+                  </div>
+                  <input type="hidden" id="otpValue" name="otp">
+                  <button type="submit" class="btn-submit">Verify OTP</button>
+              </form>
+              <div class="card">
+                <h3>Time Remaining -  <span id="countdown"></span> </h3>
+                <p>Didint Recieve OTP? <a href="/user/forget-password">Resend OTP</a></p>
+              </div>
+          </div>
       </div>
-    </div>
-    <%- include("partials/FlashMessage")%> <%- include("partials/footer")%>
-  </body>
+  </div>
+  <%- include("partials/FlashMessage")%> <%- include("partials/footer")%>
+  <script>
+    const inputs = document.querySelectorAll('.otp-input');
+
+function handleInput(e) {
+    const input = e.target;
+    const nextInput = input.nextElementSibling;
+
+    // Set the hidden field value
+    document.getElementById('otpValue').value = Array.from(inputs).map(i => i.value).join('');
+
+    // Move to next input field if it exists and input is filled
+    if (nextInput && input.value) {
+        nextInput.focus();
+    }
+}
+
+function handleBackspace(e) {
+    const input = e.target;
+    if (e.key === 'Backspace' && input.value === '') {
+        const prevInput = input.previousElementSibling;
+        if (prevInput) {
+            prevInput.focus();
+        }
+    }
+
+}
+var timeInSecs;
+var ticker;
+
+function startTimer(secs) {
+  timeInSecs = parseInt(secs);
+  ticker = setInterval("tick()", 1000);
+}
+
+function tick() {
+  var secs = timeInSecs;
+  if (secs > 0) {
+    timeInSecs--;
+  } else {
+    clearInterval(ticker);
+    startTimer(5 * 60); // 4 minutes in seconds
+  }
+
+  var days = Math.floor(secs / 86400);
+  secs %= 86400;
+  var hours = Math.floor(secs / 3600);
+  secs %= 3600;
+  var mins = Math.floor(secs / 60);
+  secs %= 60;
+  var pretty =
+  
+    (mins < 10 ? "0" : "") +
+    mins +
+    ":" +
+    (secs < 10 ? "0" : "") +
+    secs;
+
+  document.getElementById("countdown").innerHTML = pretty;
+}
+
+startTimer(5 * 60); // 4 minutes in seconds
+
+//Credits to Philip M from codingforum
+
+  </script>
+</body>
+
 </html>

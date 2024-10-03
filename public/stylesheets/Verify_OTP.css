@@ -1,0 +1,122 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html,
+body {
+  padding: 3px 10px;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(to right, #111827, #065f46, #047857);
+  font-family: "Open Sans", sans-serif;
+}
+::-webkit-scrollbar {
+  display: none;
+}
+:root {
+  --maincolor: #0dc56f;
+}
+.main {
+  width: 100%;
+  height: 90%;
+}
+.content {
+  width: 100%;
+  height: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.text-box {
+  width: 35%;
+  height: 75%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  border-radius: 10px;
+  padding: 20px;
+  gap: 1rem;
+  box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.5);
+}
+
+.text-box button {
+  align-items: center;
+  width: 90%;
+  margin-top: 20px;
+  padding: 10px 20px;
+  border: none;
+  font-size: 18px;
+  background-color: #4caf50;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.text-box button:hover {
+  background-color: #3b883e;
+}
+.text-box h1 {
+  font-size: 2rem;
+  color: white;
+  text-align: center;
+}
+.text-box p{
+    margin-top: 7px;
+    color: white;
+    text-align: center;
+  }
+  .text-box a{
+    margin-left: 10px;
+    text-decoration: none;
+    color: #00FF66;
+  }
+  .text-box a:hover{
+    color: #00cc33;
+  }
+.otp-input {
+  width: 60px;
+  height: 60px;
+  margin: 0 5px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 500;
+  border: 1px solid #999;
+}
+#otpForm {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.otp-container {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+}
+.card {
+    width:90%;
+    height: 10%;
+    margin-top: 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+   
+  }
+  .card h3{
+    font-size: 16px;
+    margin-right: 10px;
+    color: white;
+
+  }
+  
+  #countdown {
+    font-size: 18px;
+    color:#00cc33;
+    font-weight: 700;
+  }
+  

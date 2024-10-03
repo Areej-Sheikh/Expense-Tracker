@@ -34,8 +34,9 @@ const expenseSchema = new mongoose.Schema(
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "user",
-  },
+      ref: "User", // Ensure the ref matches the model name
+    },
+    
   },
   { timestamps: true }
 );

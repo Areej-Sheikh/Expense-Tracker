@@ -14,7 +14,7 @@ var userRouter = require('./routes/user.routes')
 const passport = require('passport');
 const session = require('express-session');
 
-// const fileupload = require("express-fileupload");
+const fileupload = require("express-fileupload");
 
 var flash = require("connect-flash");
 var app = express();
@@ -33,7 +33,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // connect flash
 app.use(flash());
 // file upload
-// app.use(fileupload());
+app.use(fileupload());
 
 
 // npm i passport passport-local passport-local-mongoose express-session

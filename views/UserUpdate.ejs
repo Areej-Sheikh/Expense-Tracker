@@ -1,51 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/512/5501/5501375.png" type="image/png" />
-    <link rel="stylesheet" href="/stylesheets/UserProfile.css" />
-    <%- include("partials/header")%>
-  </head>
-  <body>
-    <%- include("partials/UserNav")%>
-    <div class="main">  
-        <div class="avatar">
-            <div class="heading">
-                <h1>Update Profile</h1>
-            </div>
-            <div class="profile">
-              <img class="avatar-preview" src="/images/<%= user.avatar %>" alt="User Avatar">
-                    <form class="avatar-form" action="/user/avatar" enctype="multipart/form-data" method="post">
-                        <input type="file" name="avatar">
-                        <button type="submit">Update Avatar</button>
-                    </form>
-            </div>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/512/5501/5501375.png" type="image/png" />
+  <link rel="stylesheet" href="/stylesheets/UserProfile.css" />
+  <%- include("partials/header")%>
+</head>
+
+<body>
+  <%- include("partials/UserNav")%>
+    <div class="main">
+      <div class="avatar">
+        <div class="heading">
+          <h1>Update Profile</h1>
         </div>
+        <div class="profile">
+          <img class="avatar-preview" src="<%= user.avatar.url || '/images/default.png' %>" alt="User Avatar">
+          <form class="avatar-form" action="/user/avatar" enctype="multipart/form-data" method="post">
+            <input type="file" name="avatar">
+            <button type="submit">Update Avatar</button>
+          </form>
+        </div>
+
+      </div>
       <div class="user-details">
-      <div class="content">
+        <div class="content">
           <form class="update-form" action="/user/update-profile" method="post">
             <input type="text" name="username" placeholder="Username" value="<%= user.username %>">
             <input type="email" name="email" placeholder="Email" value="<%= user.email %>">
             <button type="submit">Update Details</button>
             <a href="/user/reset-password">Reset Password</a>
-        </form>
+          </form>
+        </div>
       </div>
-    </div>
-    <%- include("partials/footer")%>
-   <%- include("partials/FlashMessage")%>
-   <script>
-    const avatarPreview = document.querySelector(".avatar-preview");
-    const avatarForm = document.querySelector(".avatar-form");
-    const avatarInput = document.querySelector(".avatar-form input");
+      <%- include("partials/footer")%>
+        <%- include("partials/FlashMessage")%>
+          <script>
+            const avatarPreview = document.querySelector(".avatar-preview");
+            const avatarForm = document.querySelector(".avatar-form");
+            const avatarInput = document.querySelector(".avatar-form input");
 
-    avatarPreview.addEventListener("click", () => {
-        avatarInput.click();
-    });
+            avatarPreview.addEventListener("click", () => {
+              avatarInput.click();
+            });
 
-    avatarInput.addEventListener("change", () => {
-        avatarForm.submit();
-    });
-</script>
-  </body>
+            avatarInput.addEventListener("change", () => {
+              avatarForm.submit();
+            });
+          </script>
+</body>
+
 </html>
