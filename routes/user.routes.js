@@ -93,22 +93,18 @@ router.get("/signin", async (req, res) => {
 router.post("/signin", (req, res, next) => {
     passport.authenticate('local', (err, user, info) => {
       if (err) {
-        // If there's an error during authentication, flash an error message and redirect
         req.flash('error', 'An error occurred during sign-in.');
         return res.redirect('/user/signin');
       }
       if (!user) {
-        // If no user is returned, authentication failed
         req.flash('error', 'Invalid username or password.');
         return res.redirect('/user/signin');
       }
-      // If authentication succeeds, log the user in
       req.logIn(user, (err) => {
         if (err) {
           req.flash('error', 'Login failed. Please try again.');
           return res.redirect('/user/signin');
         }
-        // If login is successful, flash success message and redirect to the profile
         req.flash('success', 'Successfully signed in!');
         return res.redirect('/user/profile');
       });
